@@ -1,22 +1,32 @@
-/* stile.css — Stili per il Mini JSONPlaceholder Frontend */
+/* stile.css — Tema Jujutsu Kaisen */
 
 /* ============================================================
-   Variabili e reset
+   Google Fonts — Oswald (bold drammatico JJK) + Nunito (corpo)
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap');
+
+/* ============================================================
+   Variabili — Tema JJK Nero/Rosso
    ============================================================ */
 
 :root {
-    --colore-primario: #2563eb;
-    --colore-primario-scuro: #1d4ed8;
-    --colore-pericolo: #dc2626;
-    --colore-pericolo-scuro: #b91c1c;
-    --colore-sfondo: #f1f5f9;
-    --colore-card: #ffffff;
-    --colore-bordo: #e2e8f0;
-    --colore-testo: #1e293b;
-    --colore-testo-chiaro: #64748b;
-    --raggio: 8px;
-    --ombra: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --colore-primario:        #c41e3a;
+    --colore-primario-scuro:  #8b0000;
+    --colore-pericolo:        #ff4444;
+    --colore-pericolo-scuro:  #cc0000;
+    --colore-sfondo:          #080808;
+    --colore-card:            rgba(10, 5, 5, 0.82);
+    --colore-bordo:           rgba(196, 30, 58, 0.35);
+    --colore-testo:           #f0e6e6;
+    --colore-testo-chiaro:    #a89090;
+    --raggio:                 6px;
+    --ombra:                  0 2px 16px rgba(196, 30, 58, 0.25);
 }
+
+/* ============================================================
+   Reset
+   ============================================================ */
 
 * {
     margin: 0;
@@ -24,11 +34,29 @@
     box-sizing: border-box;
 }
 
+/* ============================================================
+   Body — Sfondo Yuji Itadori
+   ============================================================ */
+
 body {
-    font-family: system-ui, -apple-system, sans-serif;
-    background: var(--colore-sfondo);
+    font-family: 'Nunito', system-ui, sans-serif;
     color: var(--colore-testo);
     line-height: 1.6;
+    min-height: 100vh;
+
+    /* Wallpaper ufficiale Gojo vs Sukuna — Domain Clash */
+    background-image:
+        linear-gradient(
+            to bottom,
+            rgba(8,   0,  0, 0.70) 0%,
+            rgba(8,   0,  0, 0.50) 40%,
+            rgba(8,   0,  0, 0.75) 100%
+        ),
+        url('https://wallpapercave.com/wp/wp14267766.jpg');
+    background-size: cover;
+    background-position: center top;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
 }
 
 /* ============================================================
@@ -41,23 +69,37 @@ body {
     padding: 0 1rem;
 }
 
+/* ============================================================
+   Header
+   ============================================================ */
+
 header {
-    background: var(--colore-primario);
+    background: rgba(100, 0, 0, 0.35);
+    border-bottom: 2px solid var(--colore-primario);
     color: white;
-    padding: 1.5rem 0;
+    padding: 1.75rem 0;
     text-align: center;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 24px rgba(196, 30, 58, 0.4);
 }
 
 header h1 {
-    font-size: 1.5rem;
+    font-family: 'Oswald', sans-serif;
+    font-size: 2rem;
     font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #f0e6e6;
+    text-shadow:
+        0 0 10px rgba(196, 30, 58, 0.9),
+        0 0 30px rgba(196, 30, 58, 0.5);
 }
 
 header p {
     font-size: 0.875rem;
-    opacity: 0.85;
-    margin-top: 0.25rem;
+    color: var(--colore-testo-chiaro);
+    margin-top: 0.3rem;
+    letter-spacing: 0.05em;
 }
 
 /* ============================================================
@@ -73,25 +115,32 @@ nav {
 nav button {
     flex: 1;
     padding: 0.625rem 1rem;
-    border: 2px solid var(--colore-bordo);
+    border: 1px solid var(--colore-bordo);
     border-radius: var(--raggio);
-    background: var(--colore-card);
-    color: var(--colore-testo);
-    font-size: 0.9375rem;
+    background: rgba(100, 0, 0, 0.35);
+    color: var(--colore-testo-chiaro);
+    font-family: 'Oswald', sans-serif;
+    font-size: 1rem;
     font-weight: 600;
-    cursor: pointer;
-    transition: all 0.15s;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: none;
+    transition: all 0.2s;
+    backdrop-filter: blur(6px);
 }
 
 nav button:hover {
     border-color: var(--colore-primario);
-    color: var(--colore-primario);
+    color: #f0e6e6;
+    background: rgba(80, 0, 0, 0.5);
+    box-shadow: 0 0 10px rgba(196, 30, 58, 0.4);
 }
 
 nav button.attivo {
-    background: var(--colore-primario);
+    background: linear-gradient(135deg, var(--colore-primario), var(--colore-primario-scuro));
     border-color: var(--colore-primario);
     color: white;
+    box-shadow: 0 0 14px rgba(196, 30, 58, 0.6);
 }
 
 /* ============================================================
@@ -103,8 +152,14 @@ nav button.attivo {
 }
 
 section h2 {
-    font-size: 1.25rem;
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     margin-bottom: 1rem;
+    color: #f0e6e6;
+    text-shadow: 0 0 8px rgba(196, 30, 58, 0.7);
 }
 
 /* ============================================================
@@ -119,7 +174,7 @@ section h2 {
 
 .breadcrumb a {
     color: var(--colore-primario);
-    cursor: pointer;
+    cursor: none;
     text-decoration: underline;
 }
 
@@ -134,11 +189,22 @@ section h2 {
     padding: 1rem;
     margin-bottom: 0.75rem;
     box-shadow: var(--ombra);
+    backdrop-filter: blur(8px);
+    transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.card:hover {
+    border-color: var(--colore-primario);
+    box-shadow: 0 4px 24px rgba(196, 30, 58, 0.35);
 }
 
 .card h3 {
-    font-size: 1rem;
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
     margin-bottom: 0.25rem;
+    color: #f0e6e6;
 }
 
 .card p {
@@ -157,28 +223,36 @@ section h2 {
     padding: 0.375rem 0.75rem;
     border: none;
     border-radius: var(--raggio);
-    font-size: 0.8125rem;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.875rem;
     font-weight: 600;
-    cursor: pointer;
-    transition: background 0.15s;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: none;
+    transition: all 0.2s;
 }
 
 .btn-primario {
-    background: var(--colore-primario);
+    background: linear-gradient(135deg, var(--colore-primario), var(--colore-primario-scuro));
     color: white;
 }
 
 .btn-primario:hover {
-    background: var(--colore-primario-scuro);
+    box-shadow: 0 0 12px rgba(196, 30, 58, 0.7);
+    transform: translateY(-1px);
 }
 
 .btn-pericolo {
-    background: var(--colore-pericolo);
-    color: white;
+    background: rgba(80, 0, 0, 0.6);
+    border: 1px solid rgba(196, 30, 58, 0.5);
+    color: #f08080;
 }
 
 .btn-pericolo:hover {
     background: var(--colore-pericolo-scuro);
+    color: white;
+    box-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
+    transform: translateY(-1px);
 }
 
 /* ============================================================
@@ -186,36 +260,47 @@ section h2 {
    ============================================================ */
 
 form {
-    background: var(--colore-card);
+    background: rgba(10, 5, 5, 0.82);
     border: 1px solid var(--colore-bordo);
     border-radius: var(--raggio);
-    padding: 1rem;
+    padding: 1.25rem;
     margin-bottom: 1.5rem;
     box-shadow: var(--ombra);
+    backdrop-filter: blur(8px);
 }
 
 form h3 {
-    font-size: 0.9375rem;
+    font-family: 'Oswald', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     margin-bottom: 0.75rem;
+    color: var(--colore-primario);
 }
 
 form label {
     display: block;
     font-size: 0.8125rem;
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: 0.25rem;
     color: var(--colore-testo-chiaro);
+    letter-spacing: 0.03em;
 }
 
 form input,
-form textarea {
+form textarea,
+form select {
     width: 100%;
-    padding: 0.5rem;
+    padding: 0.5rem 0.75rem;
     border: 1px solid var(--colore-bordo);
     border-radius: var(--raggio);
     font-size: 0.875rem;
-    font-family: inherit;
+    font-family: 'Nunito', sans-serif;
     margin-bottom: 0.75rem;
+    background: rgba(5, 0, 0, 0.8);
+    color: var(--colore-testo);
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 form textarea {
@@ -224,26 +309,31 @@ form textarea {
 }
 
 form input:focus,
-form textarea:focus {
+form textarea:focus,
+form select:focus {
     outline: none;
     border-color: var(--colore-primario);
-    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+    box-shadow: 0 0 0 3px rgba(196, 30, 58, 0.2);
 }
 
 form button[type="submit"] {
-    padding: 0.5rem 1.25rem;
-    background: var(--colore-primario);
+    padding: 0.5rem 1.5rem;
+    background: linear-gradient(135deg, var(--colore-primario), var(--colore-primario-scuro));
     color: white;
     border: none;
     border-radius: var(--raggio);
-    font-size: 0.875rem;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.95rem;
     font-weight: 600;
-    cursor: pointer;
-    transition: background 0.15s;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: none;
+    transition: all 0.2s;
 }
 
 form button[type="submit"]:hover {
-    background: var(--colore-primario-scuro);
+    box-shadow: 0 0 16px rgba(196, 30, 58, 0.7);
+    transform: translateY(-1px);
 }
 
 /* ============================================================
@@ -251,14 +341,398 @@ form button[type="submit"]:hover {
    ============================================================ */
 
 .errore {
-    background: #fef2f2;
-    color: var(--colore-pericolo);
-    border: 1px solid #fecaca;
+    background: rgba(196, 30, 58, 0.1);
+    color: #ff6b6b;
+    border: 1px solid rgba(196, 30, 58, 0.4);
     border-radius: var(--raggio);
     padding: 0.75rem 1rem;
     margin-bottom: 1rem;
     font-size: 0.875rem;
+    font-weight: 600;
 }
+
+/* ============================================================
+   Filtro ricerca
+   ============================================================ */
+
+#ricerca-utenti {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--colore-bordo);
+    border-radius: var(--raggio);
+    font-size: 0.9375rem;
+    font-family: 'Nunito', sans-serif;
+    background: rgba(10, 5, 5, 0.82);
+    color: var(--colore-testo);
+    box-shadow: var(--ombra);
+    backdrop-filter: blur(6px);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#ricerca-utenti::placeholder {
+    color: #5a3333;
+}
+
+#ricerca-utenti:focus {
+    outline: none;
+    border-color: var(--colore-primario);
+    box-shadow: 0 0 0 3px rgba(196, 30, 58, 0.2);
+}
+
+/* ============================================================
+   Statistiche
+   ============================================================ */
+
+#statistiche {
+    text-align: center;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--colore-primario);
+    text-shadow:
+        -1px -1px 0 #000,
+         1px -1px 0 #000,
+        -1px  1px 0 #000,
+         1px  1px 0 #000,
+        0 0 8px rgba(196, 30, 58, 0.5);
+    padding: 0.5rem 0 1rem;
+}
+
+/* ============================================================
+   Accordion Nuovo Utente
+   ============================================================ */
+
+.accordion-utente {
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--colore-bordo);
+    border-radius: var(--raggio);
+    background: rgba(10, 5, 5, 0.82);
+    backdrop-filter: blur(8px);
+    box-shadow: var(--ombra);
+    overflow: hidden;
+}
+
+.accordion-utente[open] {
+    border-color: var(--colore-primario);
+    box-shadow: 0 0 16px rgba(196, 30, 58, 0.3);
+}
+
+.accordion-header {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--colore-testo-chiaro);
+    padding: 0.85rem 1.25rem;
+    cursor: none;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.2s, background 0.2s;
+    user-select: none;
+}
+
+/* Rimuove la freccia di default del browser */
+.accordion-header::-webkit-details-marker { display: none; }
+.accordion-header::marker { display: none; }
+
+.accordion-utente[open] .accordion-header {
+    color: var(--colore-primario);
+    border-bottom: 1px solid var(--colore-bordo);
+}
+
+.accordion-header:hover {
+    color: #f0e6e6;
+    background: rgba(196, 30, 58, 0.08);
+}
+
+/* Il ＋ diventa × quando è aperto */
+.accordion-utente[open] .accordion-header::before {
+    content: "－";
+    color: var(--colore-primario);
+    margin-right: 0.1rem;
+}
+.accordion-utente:not([open]) .accordion-header::before {
+    content: "＋";
+    color: var(--colore-testo-chiaro);
+    margin-right: 0.1rem;
+}
+
+/* Nascondi il ＋ scritto nell'HTML dato che lo gestiamo col ::before */
+.accordion-header {
+    font-size: 0;
+}
+.accordion-header::before,
+.accordion-header::after {
+    font-size: 1rem;
+}
+.accordion-header::after {
+    content: " Nuovo Utente";
+    font-family: 'Oswald', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+}
+
+.accordion-post::after    { content: " Nuovo Post"; }
+.accordion-commento::after { content: " Nuovo Commento"; }
+
+/* Il form dentro l'accordion perde il suo sfondo/bordo perché già nel contenitore */
+.accordion-utente form {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+    backdrop-filter: none;
+    margin-bottom: 0;
+}
+
+/* ============================================================
+   Tabella Utenti
+   ============================================================ */
+
+.tabella-utenti {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+    background: rgba(10, 5, 5, 0.82);
+    backdrop-filter: blur(8px);
+    border-radius: var(--raggio);
+    overflow: hidden;
+    box-shadow: var(--ombra);
+    font-size: 0.85rem;
+}
+
+.tabella-utenti thead tr {
+    background: linear-gradient(135deg, rgba(139, 0, 0, 0.8), rgba(80, 0, 0, 0.9));
+    border-bottom: 2px solid var(--colore-primario);
+}
+
+.tabella-utenti th {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.78rem;
+    color: #f0e6e6;
+    padding: 0.7rem 0.75rem;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.tabella-utenti td {
+    padding: 0.6rem 0.75rem;
+    color: var(--colore-testo-chiaro);
+    border-bottom: 1px solid rgba(196, 30, 58, 0.15);
+    vertical-align: middle;
+}
+
+.tabella-utenti tbody tr {
+    transition: background 0.15s;
+}
+
+.tabella-utenti tbody tr:hover {
+    background: rgba(196, 30, 58, 0.08);
+}
+
+.tabella-utenti tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.tabella-utenti .td-nome {
+    font-weight: 700;
+    color: #f0e6e6;
+}
+
+.tabella-utenti .td-cf {
+    font-family: monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+}
+
+.tabella-utenti .td-data {
+    white-space: nowrap;
+    font-size: 0.78rem;
+}
+
+.tabella-utenti .td-azioni {
+    display: flex;
+    gap: 0.4rem;
+    white-space: nowrap;
+}
+
+.tabella-utenti .btn-primario,
+.tabella-utenti .btn-pericolo {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.75rem;
+}
+
+.tabella-utenti .td-corpo {
+    max-width: 220px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ============================================================
+   Emoji animate sui titoli
+   ============================================================ */
+
+.emoji-kuromi {
+    display: inline-block;
+    animation: jjk-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes jjk-pulse {
+    0%, 100% { transform: scale(1)    rotate(0deg);  filter: drop-shadow(0 0 4px rgba(196,30,58,0.6)); }
+    25%       { transform: scale(1.15) rotate(-5deg); filter: drop-shadow(0 0 10px rgba(196,30,58,1));  }
+    75%       { transform: scale(1.1)  rotate(4deg);  filter: drop-shadow(0 0 8px rgba(196,30,58,0.9)); }
+}
+
+/* ============================================================
+   Cursore JJK
+   ============================================================ */
+
+* {
+    cursor: none !important;
+}
+
+#cursore-kuromi {
+    position: fixed;
+    pointer-events: none;
+    z-index: 99999;
+    font-size: 1.2rem;
+    transform: translate(-50%, -50%);
+    filter: drop-shadow(0 0 8px rgba(196, 30, 58, 1));
+}
+
+/* ============================================================
+   Scintille energia maledetta
+   ============================================================ */
+
+.scintilla-kuromi {
+    position: fixed;
+    pointer-events: none;
+    z-index: 99998;
+    transform: translate(-50%, -50%);
+    animation: energia-maledetta 0.6s ease-out forwards;
+    text-shadow: 0 0 8px rgba(196, 30, 58, 0.9);
+}
+
+@keyframes energia-maledetta {
+    0%   { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+    100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.1); }
+}
+
+/* ============================================================
+   Tema Switcher — bottone fisso in basso a destra
+   ============================================================ */
+
+#tema-switcher {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 99990;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+}
+
+#tema-btn {
+    padding: 0.6rem 1.1rem;
+    background: rgba(10, 5, 5, 0.88);
+    border: 1px solid var(--colore-primario);
+    border-radius: 999px;
+    color: var(--colore-testo);
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    cursor: none;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 0 14px rgba(0,0,0,0.5);
+    transition: all 0.2s;
+}
+
+#tema-btn:hover {
+    background: var(--colore-primario);
+    box-shadow: 0 0 16px var(--colore-primario);
+}
+
+#tema-popup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    background: rgba(8, 5, 5, 0.95);
+    border: 1px solid var(--colore-bordo);
+    border-radius: 10px;
+    padding: 0.6rem;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+    min-width: 180px;
+}
+
+#tema-popup.nascosta {
+    display: none;
+}
+
+.tema-opzione {
+    padding: 0.45rem 0.9rem;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    color: var(--colore-testo-chiaro);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-align: left;
+    cursor: none;
+    transition: all 0.15s;
+}
+
+.tema-opzione:hover {
+    background: rgba(255,255,255,0.07);
+    border-color: var(--colore-bordo);
+    color: var(--colore-testo);
+}
+
+.tema-opzione.tema-attivo {
+    background: rgba(255,255,255,0.1);
+    border-color: var(--colore-primario);
+    color: var(--colore-testo);
+}
+
+/* ============================================================
+   Font override per temi "cute" (Kuromi / Hello Kitty)
+   ============================================================ */
+
+body[data-tema-font="nunito"] h1,
+body[data-tema-font="nunito"] h2,
+body[data-tema-font="nunito"] nav button,
+body[data-tema-font="nunito"] .accordion-header::after,
+body[data-tema-font="nunito"] .accordion-post::after,
+body[data-tema-font="nunito"] .accordion-commento::after,
+body[data-tema-font="nunito"] form h3,
+body[data-tema-font="nunito"] .card h3,
+body[data-tema-font="nunito"] .tabella-utenti th,
+body[data-tema-font="nunito"] .tabella-utenti .td-azioni button,
+body[data-tema-font="nunito"] #statistiche,
+body[data-tema-font="nunito"] form button[type="submit"],
+body[data-tema-font="nunito"] #tema-btn {
+    font-family: 'Nunito', sans-serif !important;
+    text-transform: none !important;
+    letter-spacing: 0.02em !important;
+}
+
+/* ============================================================
+   Vuoto
+   ============================================================ */
 
 .vuoto {
     text-align: center;

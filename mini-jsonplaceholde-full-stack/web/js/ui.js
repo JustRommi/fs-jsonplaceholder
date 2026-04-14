@@ -7,22 +7,30 @@
 // Helper
 // ============================================================
 
+function formattaData(timestamp) {
+  return new Date(timestamp).toLocaleDateString("it-IT", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
+
 export function pulisciContenitore(contenitore) {
-    contenitore.innerHTML = "";
+  contenitore.innerHTML = "";
 }
 
 export function mostraErrore(messaggio, contenitore) {
-    const div = document.createElement("div");
-    div.className = "errore";
-    div.textContent = messaggio;
-    contenitore.prepend(div);
+  const div = document.createElement("div");
+  div.className = "errore";
+  div.textContent = messaggio;
+  contenitore.prepend(div);
 
-    // Rimuovi dopo 4 secondi
-    setTimeout(() => div.remove(), 4000);
+  // Rimuovi dopo 4 secondi
+  setTimeout(() => div.remove(), 4000);
 }
 
 function mostraVuoto(contenitore, testo) {
-    contenitore.innerHTML = `<p class="vuoto">${testo}</p>`;
+  contenitore.innerHTML = `<p class="vuoto">${testo}</p>`;
 }
 
 // ============================================================
@@ -35,36 +43,65 @@ function mostraVuoto(contenitore, testo) {
  * @param {{ onVediPost: Function, onElimina: Function }} callbacks
  */
 export function mostraUtenti(utenti, contenitore, callbacks) {
-    pulisciContenitore(contenitore);
+  pulisciContenitore(contenitore);
 
-    if (utenti.length === 0) {
-        mostraVuoto(contenitore, "Nessun utente trovato");
-        return;
-    }
+  if (utenti.length === 0) {
+    mostraVuoto(contenitore, "Nessun utente trovato");
+    return;
+  }
 
-    utenti.forEach(utente => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `
-            <h3>${utente.nome}</h3>
-            <p>${utente.email}</p>
-            <p>${utente.citta || "Nessuna citta"}</p>
-            <div class="azioni">
-                <button class="btn-primario" data-azione="vedi-post">Vedi Post</button>
-                <button class="btn-pericolo" data-azione="elimina">Elimina</button>
-            </div>
-        `;
+  const tabella = document.createElement("table");
+  tabella.className = "tabella-utenti";
+  tabella.innerHTML = `
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Nome</th>
+        <th>Email</th>
+        <th>Città</th>
+        <th>CF</th>
+        <th>Sesso</th>
+        <th>Nato il</th>
+        <th>Telefono</th>
+        <th>Creato il</th>
+        <th>Azioni</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  `;
 
-        card.querySelector('[data-azione="vedi-post"]').addEventListener("click", () => {
-            callbacks.onVediPost(utente);
-        });
+  const tbody = tabella.querySelector("tbody");
 
-        card.querySelector('[data-azione="elimina"]').addEventListener("click", () => {
-            callbacks.onElimina(utente.id);
-        });
+  utenti.forEach((utente) => {
+    const riga = document.createElement("tr");
+    riga.innerHTML = `
+      <td>${utente.id}</td>
+      <td class="td-nome">${utente.nome}</td>
+      <td>${utente.email}</td>
+      <td>${utente.citta || "—"}</td>
+      <td class="td-cf">${utente.codiceFiscale}</td>
+      <td>${utente.sesso}</td>
+      <td>${utente.dataNascita ? utente.dataNascita.slice(0, 10) : "—"}</td>
+      <td>${utente.telefono || "—"}</td>
+      <td class="td-data">${formattaData(utente.creatoIl)}</td>
+      <td class="td-azioni">
+        <button class="btn-primario" data-azione="vedi-post">Post</button>
+        <button class="btn-pericolo" data-azione="elimina">Elimina</button>
+      </td>
+    `;
 
-        contenitore.appendChild(card);
+    riga.querySelector('[data-azione="vedi-post"]').addEventListener("click", () => {
+      callbacks.onVediPost(utente);
     });
+
+    riga.querySelector('[data-azione="elimina"]').addEventListener("click", () => {
+      callbacks.onElimina(utente.id);
+    });
+
+    tbody.appendChild(riga);
+  });
+
+  contenitore.appendChild(tabella);
 }
 
 // ============================================================
@@ -77,35 +114,55 @@ export function mostraUtenti(utenti, contenitore, callbacks) {
  * @param {{ onVediCommenti: Function, onElimina: Function }} callbacks
  */
 export function mostraPost(post, contenitore, callbacks) {
-    pulisciContenitore(contenitore);
+  pulisciContenitore(contenitore);
 
-    if (post.length === 0) {
-        mostraVuoto(contenitore, "Nessun post trovato");
-        return;
-    }
+  if (post.length === 0) {
+    mostraVuoto(contenitore, "Nessun post trovato");
+    return;
+  }
 
-    post.forEach(p => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `
-            <h3>${p.titolo}</h3>
-            <p>${p.corpo}</p>
-            <div class="azioni">
-                <button class="btn-primario" data-azione="vedi-commenti">Vedi Commenti</button>
-                <button class="btn-pericolo" data-azione="elimina">Elimina</button>
-            </div>
-        `;
+  const tabella = document.createElement("table");
+  tabella.className = "tabella-utenti";
+  tabella.innerHTML = `
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Titolo</th>
+        <th>Corpo</th>
+        <th>Creato il</th>
+        <th>Azioni</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  `;
 
-        card.querySelector('[data-azione="vedi-commenti"]').addEventListener("click", () => {
-            callbacks.onVediCommenti(p);
-        });
+  const tbody = tabella.querySelector("tbody");
 
-        card.querySelector('[data-azione="elimina"]').addEventListener("click", () => {
-            callbacks.onElimina(p.id);
-        });
+  post.forEach((p) => {
+    const riga = document.createElement("tr");
+    riga.innerHTML = `
+      <td>${p.id}</td>
+      <td class="td-nome">${p.titolo}</td>
+      <td class="td-corpo">${p.corpo}</td>
+      <td class="td-data">${formattaData(p.creatoIl)}</td>
+      <td class="td-azioni">
+        <button class="btn-primario" data-azione="vedi-commenti">Commenti</button>
+        <button class="btn-pericolo" data-azione="elimina">Elimina</button>
+      </td>
+    `;
 
-        contenitore.appendChild(card);
+    riga.querySelector('[data-azione="vedi-commenti"]').addEventListener("click", () => {
+      callbacks.onVediCommenti(p);
     });
+
+    riga.querySelector('[data-azione="elimina"]').addEventListener("click", () => {
+      callbacks.onElimina(p.id);
+    });
+
+    tbody.appendChild(riga);
+  });
+
+  contenitore.appendChild(tabella);
 }
 
 // ============================================================
@@ -118,29 +175,50 @@ export function mostraPost(post, contenitore, callbacks) {
  * @param {{ onElimina: Function }} callbacks
  */
 export function mostraCommenti(commenti, contenitore, callbacks) {
-    pulisciContenitore(contenitore);
+  pulisciContenitore(contenitore);
 
-    if (commenti.length === 0) {
-        mostraVuoto(contenitore, "Nessun commento trovato");
-        return;
-    }
+  if (commenti.length === 0) {
+    mostraVuoto(contenitore, "Nessun commento trovato");
+    return;
+  }
 
-    commenti.forEach(c => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `
-            <h3>${c.nome}</h3>
-            <p>${c.email}</p>
-            <p>${c.corpo}</p>
-            <div class="azioni">
-                <button class="btn-pericolo" data-azione="elimina">Elimina</button>
-            </div>
-        `;
+  const tabella = document.createElement("table");
+  tabella.className = "tabella-utenti";
+  tabella.innerHTML = `
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Nome</th>
+        <th>Email</th>
+        <th>Corpo</th>
+        <th>Creato il</th>
+        <th>Azioni</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  `;
 
-        card.querySelector('[data-azione="elimina"]').addEventListener("click", () => {
-            callbacks.onElimina(c.id);
-        });
+  const tbody = tabella.querySelector("tbody");
 
-        contenitore.appendChild(card);
+  commenti.forEach((c) => {
+    const riga = document.createElement("tr");
+    riga.innerHTML = `
+      <td>${c.id}</td>
+      <td class="td-nome">${c.nome}</td>
+      <td>${c.email}</td>
+      <td class="td-corpo">${c.corpo}</td>
+      <td class="td-data">${formattaData(c.creatoIl)}</td>
+      <td class="td-azioni">
+        <button class="btn-pericolo" data-azione="elimina">Elimina</button>
+      </td>
+    `;
+
+    riga.querySelector('[data-azione="elimina"]').addEventListener("click", () => {
+      callbacks.onElimina(c.id);
     });
+
+    tbody.appendChild(riga);
+  });
+
+  contenitore.appendChild(tabella);
 }

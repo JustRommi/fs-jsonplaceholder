@@ -1,6 +1,34 @@
 // tema-switcher.js — Switcher temi anime
 
 const TEMI = {
+  default: {
+    nome: "Default",
+    icona: "🔵",
+    sfondo: "",
+    overlay: ["rgba(241,245,249,0)", "rgba(241,245,249,0)", "rgba(241,245,249,0)"],
+    bgSize: "cover",
+    bgPos: "center center",
+    css: {
+      "--colore-primario":        "#2563eb",
+      "--colore-primario-scuro":  "#1d4ed8",
+      "--colore-pericolo":        "#dc2626",
+      "--colore-pericolo-scuro":  "#b91c1c",
+      "--colore-sfondo":          "#f1f5f9",
+      "--colore-card":            "#ffffff",
+      "--colore-bordo":           "#e2e8f0",
+      "--colore-testo":           "#1e293b",
+      "--colore-testo-chiaro":    "#64748b",
+      "--ombra":                  "0 1px 3px rgba(0, 0, 0, 0.1)",
+    },
+    fontTitoli: "system",
+    emoji: ["🔵", "⚪", "👤", "📝", "💬"],
+    cursore: {
+      icona:   "🔵",
+      simboli: ["·", "✦", "✧", "⋆", "○", "◆"],
+      colori:  ["#2563eb", "#1d4ed8", "#93c5fd", "#ffffff", "#3b82f6"],
+    },
+  },
+
   jjk: {
     nome: "Jujutsu Kaisen",
     icona: "⚡",
@@ -140,10 +168,10 @@ const TEMI = {
   hxh: {
     nome: "Hunter × Hunter",
     icona: "⚡",
-    sfondo: "https://wallpapercave.com/wp/wp14491168.jpg",
-    overlay: ["rgba(5,0,15,0.60)", "rgba(5,0,15,0.40)", "rgba(5,0,15,0.65)"],
-    bgSize: "contain",
-    bgPos: "center center",
+    sfondo: "img/sfondo-hxh.png",
+    overlay: ["rgba(5,0,15,0.45)", "rgba(5,0,15,0.15)", "rgba(5,0,15,0.50)"],
+    bgSize: "cover",
+    bgPos: "center top",
     css: {
       "--colore-primario":        "#7b2fbe",
       "--colore-primario-scuro":  "#5c1a99",
@@ -181,13 +209,18 @@ function applicaTema(id) {
   }
 
   // 2. Sfondo body
-  const [c1, c2, c3] = tema.overlay;
-  document.body.style.backgroundImage = `
-    linear-gradient(to bottom, ${c1} 0%, ${c2} 40%, ${c3} 100%),
-    url('${tema.sfondo}')
-  `;
-  document.body.style.backgroundSize    = tema.bgSize    || "cover";
-  document.body.style.backgroundPosition = tema.bgPos   || "center top";
+  if (tema.sfondo) {
+    const [c1, c2, c3] = tema.overlay;
+    document.body.style.backgroundImage = `
+      linear-gradient(to bottom, ${c1} 0%, ${c2} 40%, ${c3} 100%),
+      url('${tema.sfondo}')
+    `;
+  } else {
+    document.body.style.backgroundImage = "none";
+    document.body.style.backgroundColor = tema.css["--colore-sfondo"];
+  }
+  document.body.style.backgroundSize     = tema.bgSize || "cover";
+  document.body.style.backgroundPosition = tema.bgPos  || "center top";
 
   // 3. Emoji titoli [h1-sx, h1-dx, utenti, post, commenti]
   const emojis = document.querySelectorAll(".emoji-kuromi");

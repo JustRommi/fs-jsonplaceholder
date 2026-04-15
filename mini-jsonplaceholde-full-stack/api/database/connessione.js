@@ -18,6 +18,10 @@ const pool = mysql.createPool({
 
     // Numero massimo di connessioni simultanee nel pool
     connectionLimit: 10,
+
+    // Dice a mysql2 che il server MySQL è in UTC,
+    // così non applica l'offset del fuso locale due volte
+    timezone: 'Z',
 });
 
 export default pool;

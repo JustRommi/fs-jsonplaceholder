@@ -10,18 +10,18 @@ const BASE_URL = "http://localhost:3000/api";
 // ============================================================
 
 async function chiamataApi(percorso, opzioni = {}) {
-    const risposta = await fetch(`${BASE_URL}${percorso}`, {
-        headers: { "Content-Type": "application/json" },
-        ...opzioni,
-    });
+  const risposta = await fetch(`${BASE_URL}${percorso}`, {
+    headers: { "Content-Type": "application/json" },
+    ...opzioni,
+  });
 
-    const dati = await risposta.json();
+  const dati = await risposta.json();
 
-    if (!risposta.ok) {
-        throw new Error(dati.errore || "Errore sconosciuto");
-    }
+  if (!risposta.ok) {
+    throw new Error(dati.errore || "Errore sconosciuto");
+  }
 
-    return dati;
+  return dati;
 }
 
 // ============================================================
@@ -29,38 +29,49 @@ async function chiamataApi(percorso, opzioni = {}) {
 // ============================================================
 
 export async function ottieniUtenti() {
-    return chiamataApi("/utenti");
+  return chiamataApi("/utenti");
 }
 
 export async function creaUtente(dati) {
-    return chiamataApi("/utenti", {
-        method: "POST",
-        body: JSON.stringify(dati),
-    });
+  return chiamataApi("/utenti", {
+    method: "POST",
+    body: JSON.stringify(dati),
+  });
+}
+
+export async function modificaUtente(id, dati) {
+  return chiamataApi(`/utenti/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(dati),
+  });
 }
 
 export async function eliminaUtente(id) {
-    return chiamataApi(`/utenti/${id}`, { method: "DELETE" });
+  return chiamataApi(`/utenti/${id}`, { method: "DELETE" });
 }
 
 // ============================================================
 // Post
 // ============================================================
 
-export async function ottieniPost(userId) {
-    const query = userId ? `?userId=${userId}` : "";
-    return chiamataApi(`/post${query}`);
+export async function ottieniPost(userId, pagina, limite) {
+  const params = new URLSearchParams();
+  if (userId) params.append("userId", userId);
+  if (pagina) params.append("pagina", pagina);
+  if (limite) params.append("limite", limite);
+  const query = params.toString() ? `?${params.toString()}` : "";
+  return chiamataApi(`/post${query}`);
 }
 
 export async function creaPost(dati) {
-    return chiamataApi("/post", {
-        method: "POST",
-        body: JSON.stringify(dati),
-    });
+  return chiamataApi("/post", {
+    method: "POST",
+    body: JSON.stringify(dati),
+  });
 }
 
 export async function eliminaPost(id) {
-    return chiamataApi(`/post/${id}`, { method: "DELETE" });
+  return chiamataApi(`/post/${id}`, { method: "DELETE" });
 }
 
 // ============================================================
@@ -68,17 +79,17 @@ export async function eliminaPost(id) {
 // ============================================================
 
 export async function ottieniCommenti(postId) {
-    const query = postId ? `?postId=${postId}` : "";
-    return chiamataApi(`/commenti${query}`);
+  const query = postId ? `?postId=${postId}` : "";
+  return chiamataApi(`/commenti${query}`);
 }
 
 export async function creaCommento(dati) {
-    return chiamataApi("/commenti", {
-        method: "POST",
-        body: JSON.stringify(dati),
-    });
+  return chiamataApi("/commenti", {
+    method: "POST",
+    body: JSON.stringify(dati),
+  });
 }
 
 export async function eliminaCommento(id) {
-    return chiamataApi(`/commenti/${id}`, { method: "DELETE" });
+  return chiamataApi(`/commenti/${id}`, { method: "DELETE" });
 }

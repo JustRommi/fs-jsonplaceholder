@@ -64,9 +64,9 @@ body {
    ============================================================ */
 
 .contenitore {
-    max-width: 800px;
+    max-width: 1300px;
     margin: 0 auto;
-    padding: 0 1rem;
+    padding: 0 1.5rem;
 }
 
 /* ============================================================
@@ -239,6 +239,19 @@ section h2 {
 
 .btn-primario:hover {
     box-shadow: 0 0 12px rgba(196, 30, 58, 0.7);
+    transform: translateY(-1px);
+}
+
+.btn-secondario {
+    background: rgba(180, 100, 0, 0.6);
+    border: 1px solid rgba(220, 140, 0, 0.5);
+    color: #ffd080;
+}
+
+.btn-secondario:hover {
+    background: #b45309;
+    color: white;
+    box-shadow: 0 0 10px rgba(220, 140, 0, 0.5);
     transform: translateY(-1px);
 }
 
@@ -561,9 +574,14 @@ form button[type="submit"]:hover {
 }
 
 .tabella-utenti .td-azioni {
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.tabella-utenti .td-azioni .azioni-wrap {
     display: flex;
     gap: 0.4rem;
-    white-space: nowrap;
+    align-items: center;
 }
 
 .tabella-utenti .btn-primario,
@@ -577,6 +595,81 @@ form button[type="submit"]:hover {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+/* Data a due righe */
+.td-data-multi {
+    white-space: nowrap;
+}
+
+.td-data-multi .data-giorno {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--colore-testo-chiaro);
+}
+
+.td-data-multi .data-ora {
+    display: block;
+    font-size: 0.72rem;
+    opacity: 0.65;
+}
+
+/* Righe commenti cliccabili */
+.riga-cliccabile {
+    cursor: pointer;
+}
+
+.riga-cliccabile:hover {
+    background: rgba(var(--colore-primario), 0.08);
+}
+
+.riga-aperta {
+    border-bottom: none !important;
+}
+
+/* Riga espansa sotto il commento */
+.riga-espansa td {
+    padding: 0 !important;
+    border-bottom: 1px solid var(--colore-bordo);
+}
+
+.riga-espansa.nascosta {
+    display: none;
+}
+
+.commento-espanso {
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.04);
+    border-left: 3px solid var(--colore-primario);
+    animation: espandi 0.2s ease-out;
+}
+
+.commento-espanso-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--colore-primario);
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.commento-espanso p {
+    font-size: 0.9rem;
+    color: var(--colore-testo);
+    line-height: 1.6;
+    margin-bottom: 0.4rem;
+    white-space: pre-wrap;
+}
+
+.commento-espanso small {
+    font-size: 0.75rem;
+    color: var(--colore-testo-chiaro);
+}
+
+@keyframes espandi {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ============================================================
@@ -709,6 +802,253 @@ form button[type="submit"]:hover {
 }
 
 /* ============================================================
+   Override tema Default (bianco/blu, font system)
+   ============================================================ */
+
+body[data-tema-font="system"] {
+    background-color: var(--colore-sfondo) !important;
+}
+
+body[data-tema-font="system"] header {
+    background: var(--colore-primario) !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+}
+
+body[data-tema-font="system"] h1,
+body[data-tema-font="system"] h2,
+body[data-tema-font="system"] nav button,
+body[data-tema-font="system"] .card h3,
+body[data-tema-font="system"] .tabella-utenti th,
+body[data-tema-font="system"] form h3,
+body[data-tema-font="system"] form button[type="submit"],
+body[data-tema-font="system"] .accordion-header::before,
+body[data-tema-font="system"] .accordion-header::after,
+body[data-tema-font="system"] .accordion-post::after,
+body[data-tema-font="system"] .accordion-commento::after,
+body[data-tema-font="system"] #statistiche,
+body[data-tema-font="system"] .card .azioni button,
+body[data-tema-font="system"] #tema-btn {
+    font-family: system-ui, -apple-system, sans-serif !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+}
+
+body[data-tema-font="system"] h1,
+body[data-tema-font="system"] h2,
+body[data-tema-font="system"] .card h3,
+body[data-tema-font="system"] .tabella-utenti th {
+    color: var(--colore-testo) !important;
+    text-shadow: none !important;
+}
+
+body[data-tema-font="system"] header h1 {
+    color: white !important;
+    text-shadow: none !important;
+}
+
+body[data-tema-font="system"] nav button {
+    color: var(--colore-testo) !important;
+    background: white !important;
+}
+
+body[data-tema-font="system"] nav button:hover {
+    background: white !important;
+    color: var(--colore-primario) !important;
+    box-shadow: none !important;
+}
+
+body[data-tema-font="system"] nav button.attivo {
+    background: var(--colore-primario) !important;
+    color: white !important;
+    box-shadow: none !important;
+}
+
+body[data-tema-font="system"] .card {
+    color: var(--colore-testo) !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+}
+
+body[data-tema-font="system"] .card:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
+}
+
+body[data-tema-font="system"] .card h3 {
+    color: var(--colore-testo) !important;
+}
+
+body[data-tema-font="system"] .tabella-utenti thead tr {
+    background: var(--colore-primario) !important;
+}
+
+body[data-tema-font="system"] .tabella-utenti th {
+    color: white !important;
+}
+
+body[data-tema-font="system"] .tabella-utenti td {
+    border-bottom: 1px solid var(--colore-bordo) !important;
+}
+
+body[data-tema-font="system"] .tabella-utenti tbody tr:hover {
+    background: rgba(37, 99, 235, 0.05) !important;
+}
+
+body[data-tema-font="system"] .tabella-utenti .td-nome {
+    color: var(--colore-testo) !important;
+}
+
+body[data-tema-font="system"] .btn-secondario {
+    background: #d97706 !important;
+    border: none !important;
+    color: white !important;
+}
+
+body[data-tema-font="system"] .btn-pericolo {
+    background: #dc2626 !important;
+    border: none !important;
+    color: white !important;
+}
+
+body[data-tema-font="system"] .btn-primario:hover,
+body[data-tema-font="system"] .btn-pericolo:hover {
+    box-shadow: none !important;
+}
+
+body[data-tema-font="system"] .accordion-utente[open] {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+}
+
+body[data-tema-font="system"] .accordion-header:hover {
+    background: rgba(37, 99, 235, 0.05) !important;
+    color: var(--colore-testo) !important;
+}
+
+body[data-tema-font="system"] #statistiche {
+    color: var(--colore-primario) !important;
+    text-shadow: none !important;
+}
+
+body[data-tema-font="system"] form h3 {
+    color: var(--colore-testo) !important;
+}
+
+body[data-tema-font="system"] section h2 {
+    text-shadow: none !important;
+}
+
+body[data-tema-font="system"] form input,
+body[data-tema-font="system"] form textarea,
+body[data-tema-font="system"] form select {
+    background: #ffffff !important;
+    color: var(--colore-testo) !important;
+}
+
+body[data-tema-font="system"] form input:focus,
+body[data-tema-font="system"] form textarea:focus,
+body[data-tema-font="system"] form select:focus {
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2) !important;
+}
+
+body[data-tema-font="system"] form button[type="submit"]:hover {
+    box-shadow: none !important;
+}
+
+body[data-tema-font="system"] .errore {
+    background: #fef2f2 !important;
+    border-color: #fecaca !important;
+    color: #dc2626 !important;
+}
+
+body[data-tema-font="system"] #ricerca-utenti {
+    background: #ffffff !important;
+    color: var(--colore-testo) !important;
+}
+
+body[data-tema-font="system"] #ricerca-utenti:focus {
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2) !important;
+}
+
+body[data-tema-font="system"] #cursore-kuromi {
+    filter: drop-shadow(0 0 4px rgba(37, 99, 235, 0.7)) !important;
+}
+
+body[data-tema-font="system"] .scintilla-kuromi {
+    text-shadow: 0 0 4px rgba(37, 99, 235, 0.6) !important;
+}
+
+body[data-tema-font="system"] .emoji-kuromi {
+    filter: none !important;
+    animation: none !important;
+}
+
+body[data-tema-font="system"] .accordion-utente {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+}
+
+body[data-tema-font="system"] .accordion-utente[open] .accordion-header {
+    color: var(--colore-primario) !important;
+}
+
+body[data-tema-font="system"] #paginazione-post button {
+    background: #ffffff !important;
+    backdrop-filter: none !important;
+}
+
+body[data-tema-font="system"] #paginazione-post button:hover:not(:disabled) {
+    box-shadow: none !important;
+    color: var(--colore-primario) !important;
+}
+
+body[data-tema-font="system"] #torna-su {
+    background: #ffffff !important;
+    backdrop-filter: none !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
+}
+
+body[data-tema-font="system"] #torna-su:hover {
+    box-shadow: 0 2px 8px rgba(37,99,235,0.3) !important;
+}
+
+body[data-tema-font="system"] .stat-card {
+    background: #ffffff !important;
+    backdrop-filter: none !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+}
+
+body[data-tema-font="system"] .stat-card:hover {
+    box-shadow: 0 2px 8px rgba(37,99,235,0.2) !important;
+}
+
+body[data-tema-font="system"] .stat-numero {
+    color: var(--colore-primario) !important;
+}
+
+body[data-tema-font="system"] .toast-successo {
+    background: #f0fdf4 !important;
+    border-color: #86efac !important;
+    color: #16a34a !important;
+}
+
+body[data-tema-font="system"] .tabella-utenti {
+    background: #ffffff !important;
+    backdrop-filter: none !important;
+}
+
+body[data-tema-font="system"] .tabella-utenti .td-azioni button {
+    border-radius: var(--raggio) !important;
+}
+
+body[data-tema-font="system"] form {
+    background: #ffffff !important;
+    backdrop-filter: none !important;
+}
+
+body[data-tema-font="system"] .accordion-utente {
+    background: #ffffff !important;
+    backdrop-filter: none !important;
+}
+
+/* ============================================================
    Font override per temi "cute" (Kuromi / Hello Kitty)
    ============================================================ */
 
@@ -728,6 +1068,260 @@ body[data-tema-font="nunito"] #tema-btn {
     font-family: 'Nunito', sans-serif !important;
     text-transform: none !important;
     letter-spacing: 0.02em !important;
+}
+
+/* ============================================================
+   Paginazione Post
+   ============================================================ */
+
+#paginazione-post {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0.6rem 0 1rem;
+}
+
+#paginazione-post button {
+    padding: 0.4rem 1.1rem;
+    background: var(--colore-card);
+    border: 1px solid var(--colore-bordo);
+    border-radius: var(--raggio);
+    color: var(--colore-testo-chiaro);
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    cursor: none;
+    backdrop-filter: blur(6px);
+    transition: all 0.2s;
+}
+
+#paginazione-post button:hover:not(:disabled) {
+    border-color: var(--colore-primario);
+    color: var(--colore-testo);
+    box-shadow: 0 0 10px rgba(196, 30, 58, 0.3);
+}
+
+#paginazione-post button:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+#paginazione-post span {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.85rem;
+    color: var(--colore-testo-chiaro);
+    letter-spacing: 0.05em;
+}
+
+/* ============================================================
+   Bottone Torna su
+   ============================================================ */
+
+#torna-su {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 1.5rem;
+    z-index: 99990;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--colore-card);
+    border: 1px solid var(--colore-bordo);
+    color: var(--colore-testo-chiaro);
+    font-size: 1.1rem;
+    cursor: none;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 0 14px rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(10px);
+    transition: opacity 0.25s, transform 0.25s, border-color 0.2s, box-shadow 0.2s;
+}
+
+#torna-su.visibile {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0);
+}
+
+#torna-su:hover {
+    border-color: var(--colore-primario);
+    color: var(--colore-testo);
+    box-shadow: 0 0 14px var(--colore-primario);
+}
+
+/* ============================================================
+   Titolo sezione animato
+   ============================================================ */
+
+@keyframes titoloEntra {
+    from { opacity: 0; transform: translateX(-14px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+.titolo-animato {
+    animation: titoloEntra 0.35s ease-out;
+}
+
+/* ============================================================
+   Scrollbar personalizzata
+   ============================================================ */
+
+::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.25);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--colore-primario);
+    border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--colore-primario-scuro);
+}
+
+/* ============================================================
+   Statistiche — Badge card
+   ============================================================ */
+
+#statistiche {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 0.5rem 0 1.25rem;
+}
+
+.stat-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+    background: var(--colore-card);
+    border: 1px solid var(--colore-bordo);
+    border-radius: var(--raggio);
+    padding: 0.75rem 1.5rem;
+    min-width: 100px;
+    backdrop-filter: blur(8px);
+    box-shadow: var(--ombra);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.stat-card:hover {
+    border-color: var(--colore-primario);
+    box-shadow: 0 0 14px rgba(196, 30, 58, 0.3);
+}
+
+.stat-icona {
+    font-size: 1.4rem;
+}
+
+.stat-numero {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--colore-primario);
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--colore-testo-chiaro);
+}
+
+/* ============================================================
+   Badge sesso
+   ============================================================ */
+
+.badge-sesso {
+    display: inline-block;
+    padding: 0.15rem 0.55rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.badge-m {
+    background: rgba(37, 99, 235, 0.2);
+    color: #60a5fa;
+    border: 1px solid rgba(37, 99, 235, 0.4);
+}
+
+.badge-f {
+    background: rgba(219, 39, 119, 0.2);
+    color: #f472b6;
+    border: 1px solid rgba(219, 39, 119, 0.4);
+}
+
+.badge-altro {
+    background: rgba(124, 58, 237, 0.2);
+    color: #a78bfa;
+    border: 1px solid rgba(124, 58, 237, 0.4);
+}
+
+/* ============================================================
+   Avatar iniziali
+   ============================================================ */
+
+.avatar-iniziali {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--av-bg, #c41e3a);
+    color: white;
+    font-size: 0.72rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 0.02em;
+    flex-shrink: 0;
+    box-shadow: 0 0 6px rgba(0,0,0,0.4);
+}
+
+/* ============================================================
+   Animazione entrata righe tabella
+   ============================================================ */
+
+.riga-entrata {
+    animation: rigaEntrata 0.3s ease-out both;
+}
+
+@keyframes rigaEntrata {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   Toast di successo
+   ============================================================ */
+
+.toast-successo {
+    background: rgba(0, 150, 60, 0.12);
+    color: #4ade80;
+    border: 1px solid rgba(0, 200, 80, 0.35);
+    border-radius: var(--raggio);
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    animation: toastEntra 0.25s ease-out;
+}
+
+@keyframes toastEntra {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ============================================================

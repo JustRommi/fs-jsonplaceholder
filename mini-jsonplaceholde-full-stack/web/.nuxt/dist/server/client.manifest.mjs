@@ -1,0 +1,18 @@
+export default {
+  "@vite/client": {
+    "prefetch": true,
+    "isEntry": true,
+    "file": "@vite/client",
+    "css": [],
+    "module": true,
+    "resourceType": "script"
+  },
+  "C:/Users/romano.cappelletto_a/Desktop/mini-jsonplaceholde-full-stack/mini-jsonplaceholde-full-stack/web/node_modules/nuxt/dist/app/entry.js": {
+    "resourceType": "script",
+    "module": true,
+    "prefetch": true,
+    "preload": true,
+    "isEntry": true,
+    "file": "C:/Users/romano.cappelletto_a/Desktop/mini-jsonplaceholde-full-stack/mini-jsonplaceholde-full-stack/web/node_modules/nuxt/dist/app/entry.js"
+  }
+}

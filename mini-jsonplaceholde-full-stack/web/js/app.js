@@ -4,15 +4,17 @@
 
 import * as api from "./api.js";
 import * as ui from "./ui.js";
+import { mostraScheletro } from "./ui.js";
 
 // ============================================================
 // Stato drill-down
 // ============================================================
 
-let utenteSelezionato = null;  // { id, nome }
-let postSelezionato   = null;  // { id, titolo }
-let utenteInModifica  = null;  // utente completo da modificare
-let utentiCache       = [];    // cache per gli avatar nei post
+let utenteSelezionato = null;
+let postSelezionato = null;
+let utenteInModifica = null;
+let utentiCache = [];
+let avatarBase64 = null; // foto caricata dall'utente
 let paginaCorrente = 1;
 const LIMITE = 3;
 
@@ -24,12 +26,14 @@ const sezioni = {
   utenti: document.getElementById("sezione-utenti"),
   post: document.getElementById("sezione-post"),
   commenti: document.getElementById("sezione-commenti"),
+  login: document.getElementById("sezione-login"),
 };
 
 const navBottoni = {
   utenti: document.getElementById("nav-utenti"),
   post: document.getElementById("nav-post"),
   commenti: document.getElementById("nav-commenti"),
+  login: document.getElementById("nav-login"),
 };
 
 const liste = {
@@ -77,7 +81,7 @@ navBottoni.post.addEventListener("click", async () => {
   utenteSelezionato = null;
   paginaCorrente = 1;
   breadcrumbs.post.innerHTML = "";
-  titoli.post.textContent = "Post";
+  titoli.post.innerHTML = `<span class="emoji-kuromi" style="animation-delay:0.2s">⚡</span> Post`;
   document.getElementById("post-userId").value = "";
   mostraSezione("post");
   await caricaPost();
@@ -87,10 +91,94 @@ navBottoni.commenti.addEventListener("click", async () => {
   postSelezionato = null;
   paginaCorrente = 1;
   breadcrumbs.commenti.innerHTML = "";
-  titoli.commenti.textContent = "Commenti";
+  titoli.commenti.innerHTML = `<span class="emoji-kuromi" style="animation-delay:0.4s">👁️</span> Commenti`;
   document.getElementById("commento-postId").value = "";
   mostraSezione("commenti");
   await caricaCommenti();
+});
+
+navBottoni.login.addEventListener("click", () => mostraSezione("login"));
+
+document.getElementById("btn-logout").addEventListener("click", async () => {
+  const refreshToken = localStorage.getItem("refreshToken");
+  if (refreshToken) await api.logout(refreshToken).catch(() => {});
+  localStorage.removeItem("token");
+  localStorage.removeItem("refreshToken");
+  localStorage.removeItem("utente");
+  aggiornaStatoLogin();
+  mostraSezione("utenti");
+  caricaUtenti();
+});
+
+// ============================================================
+// Modal conferma elimina
+// ============================================================
+
+function confermaElimina(messaggio = "Sei sicuro di voler eliminare?") {
+  return new Promise((resolve) => {
+    document.getElementById("modal-testo").textContent = messaggio;
+    const modal = document.getElementById("modal-conferma");
+    modal.classList.remove("nascosta");
+    const btnSi = document.getElementById("modal-btn-conferma");
+    const btnNo = document.getElementById("modal-btn-annulla");
+    function cleanup(esito) {
+      modal.classList.add("nascosta");
+      btnSi.removeEventListener("click", onSi);
+      btnNo.removeEventListener("click", onNo);
+      resolve(esito);
+    }
+    const onSi = () => cleanup(true);
+    const onNo = () => cleanup(false);
+    btnSi.addEventListener("click", onSi);
+    btnNo.addEventListener("click", onNo);
+  });
+}
+
+// ============================================================
+// Auth — login e stato
+// ============================================================
+
+function getUtenteLoggato() {
+  return JSON.parse(localStorage.getItem("utente") || "null");
+}
+
+function aggiornaStatoLogin() {
+  const utente = getUtenteLoggato();
+  const stato = document.getElementById("stato-login");
+  const btnLogout = document.getElementById("btn-logout");
+
+  // Mostra il form "Nuovo Utente" solo agli admin
+  document.querySelector(".accordion-utente").style.display =
+    utente?.ruolo === "admin" ? "" : "none";
+
+  if (utente) {
+    stato.innerHTML = `Loggato come ${utente.nome}<span class="badge-ruolo">${utente.ruolo}</span>`;
+    stato.classList.add("autenticato");
+    btnLogout.classList.remove("nascosta");
+  } else {
+    stato.textContent = "Non sei autenticato";
+    stato.classList.remove("autenticato");
+    btnLogout.classList.add("nascosta");
+  }
+}
+
+document.getElementById("form-login").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const email = document.getElementById("login-email").value;
+  const password = document.getElementById("login-password").value;
+  try {
+    const { accessToken, refreshToken, utente } = await api.login(email, password);
+    localStorage.setItem("token", accessToken);
+    localStorage.setItem("refreshToken", refreshToken);
+    localStorage.setItem("utente", JSON.stringify(utente));
+    aggiornaStatoLogin();
+    e.target.reset();
+    mostraSezione("utenti");
+    await caricaUtenti();
+  } catch (errore) {
+    // status 429 = tentativi esauriti → messaggio permanente (non sparisce)
+    ui.mostraErrore(errore.message, sezioni.login, errore.status === 429);
+  }
 });
 
 document.getElementById("ricerca-utenti").addEventListener("input", (e) => {
@@ -102,30 +190,44 @@ document.getElementById("ricerca-utenti").addEventListener("input", (e) => {
   });
 });
 
+function animaNumero(el, fine, durata = 600) {
+  let corrente = 0;
+  const step = 16;
+  const inc = fine / (durata / step);
+  const timer = setInterval(() => {
+    corrente = Math.min(corrente + inc, fine);
+    el.textContent = Math.round(corrente);
+    if (corrente >= fine) clearInterval(timer);
+  }, step);
+}
+
 async function aggiornaStatistiche() {
   const [utenti, post, commenti] = await Promise.all([
     api.ottieniUtenti(),
     api.ottieniPost(),
     api.ottieniCommenti(),
   ]);
-  utentiCache = utenti; // aggiorna la cache
+  utentiCache = utenti;
   document.getElementById("statistiche").innerHTML = `
     <div class="stat-card">
       <span class="stat-icona">👤</span>
-      <span class="stat-numero">${utenti.length}</span>
+      <span class="stat-numero" id="stat-utenti">0</span>
       <span class="stat-label">Utenti</span>
     </div>
     <div class="stat-card">
       <span class="stat-icona">📝</span>
-      <span class="stat-numero">${post.length}</span>
+      <span class="stat-numero" id="stat-post">0</span>
       <span class="stat-label">Post</span>
     </div>
     <div class="stat-card">
       <span class="stat-icona">💬</span>
-      <span class="stat-numero">${commenti.length}</span>
+      <span class="stat-numero" id="stat-commenti">0</span>
       <span class="stat-label">Commenti</span>
     </div>
   `;
+  animaNumero(document.getElementById("stat-utenti"), utenti.length);
+  animaNumero(document.getElementById("stat-post"), post.length);
+  animaNumero(document.getElementById("stat-commenti"), commenti.length);
 }
 
 // ============================================================
@@ -134,13 +236,19 @@ async function aggiornaStatistiche() {
 
 async function caricaUtenti() {
   try {
+    mostraScheletro(liste.utenti, 10);
     const utenti = await api.ottieniUtenti();
     utentiCache = utenti;
-    ui.mostraUtenti(utenti, liste.utenti, {
-      onVediPost: vediPostDiUtente,
-      onModifica: avviaModifica,
-      onElimina: eliminaUtente,
-    });
+    ui.mostraUtenti(
+      utenti,
+      liste.utenti,
+      {
+        onVediPost: vediPostDiUtente,
+        onModifica: avviaModifica,
+        onElimina: eliminaUtente,
+      },
+      getUtenteLoggato(),
+    );
   } catch (err) {
     ui.mostraErrore(err.message, liste.utenti);
   }
@@ -153,15 +261,22 @@ async function caricaPost(userId) {
       utentiCache = await api.ottieniUtenti();
     }
 
+    mostraScheletro(liste.post, 5);
     const risultato = await api.ottieniPost(userId, paginaCorrente, LIMITE);
 
     const post = risultato.dati ?? risultato;
     const meta = risultato.meta ?? null;
 
-    ui.mostraPost(post, liste.post, {
-      onVediCommenti: vediCommentiDiPost,
-      onElimina: eliminaPost,
-    }, utentiCache);
+    ui.mostraPost(
+      post,
+      liste.post,
+      {
+        onVediCommenti: vediCommentiDiPost,
+        onElimina: eliminaPost,
+      },
+      utentiCache,
+      getUtenteLoggato(),
+    );
 
     aggiornaPaginazione(meta, userId);
   } catch (err) {
@@ -171,6 +286,7 @@ async function caricaPost(userId) {
 
 async function caricaCommenti(postId) {
   try {
+    mostraScheletro(liste.commenti, 6);
     const commenti = await api.ottieniCommenti(postId);
     ui.mostraCommenti(commenti, liste.commenti, {
       onElimina: eliminaCommento,
@@ -215,7 +331,7 @@ async function vediCommentiDiPost(post) {
       await caricaPost(utenteSelezionato.id);
     } else {
       breadcrumbs.post.innerHTML = "";
-      titoli.post.textContent = "Post";
+      titoli.post.innerHTML = `<span class="emoji-kuromi" style="animation-delay:0.2s">⚡</span> Post`;
       await caricaPost();
     }
   });
@@ -229,7 +345,7 @@ async function vediCommentiDiPost(post) {
 // ============================================================
 
 async function eliminaUtente(id) {
-  if (!confirm("Sei sicuro di voler eliminare questo utente?")) return;
+  if (!await confermaElimina("Eliminare questo utente?")) return;
   try {
     await api.eliminaUtente(id);
     await caricaUtenti();
@@ -241,7 +357,7 @@ async function eliminaUtente(id) {
 }
 
 async function eliminaPost(id) {
-  if (!confirm("Sei sicuro di voler eliminare questo post?")) return;
+  if (!await confermaElimina("Eliminare questo post?")) return;
   try {
     await api.eliminaPost(id);
     await caricaPost(utenteSelezionato?.id);
@@ -253,7 +369,7 @@ async function eliminaPost(id) {
 }
 
 async function eliminaCommento(id) {
-  if (!confirm("Sei sicuro di voler eliminare questo commento?")) return;
+  if (!await confermaElimina("Eliminare questo commento?")) return;
   try {
     await api.eliminaCommento(id);
     await caricaCommenti(postSelezionato?.id);
@@ -306,11 +422,11 @@ function avviaModifica(utente) {
   utenteInModifica = utente;
 
   // Pre-compila il form con i dati dell'utente
-  document.getElementById("utente-nome").value    = utente.nome    || "";
-  document.getElementById("utente-email").value   = utente.email   || "";
-  document.getElementById("utente-citta").value   = utente.citta   || "";
-  document.getElementById("utente-cf").value      = utente.codiceFiscale || "";
-  document.getElementById("utente-sesso").value   = utente.sesso   || "";
+  document.getElementById("utente-nome").value = utente.nome || "";
+  document.getElementById("utente-email").value = utente.email || "";
+  document.getElementById("utente-citta").value = utente.citta || "";
+  document.getElementById("utente-cf").value = utente.codiceFiscale || "";
+  document.getElementById("utente-sesso").value = utente.sesso || "";
   document.getElementById("utente-nascita").value = utente.dataNascita
     ? utente.dataNascita.slice(0, 10)
     : "";
@@ -324,7 +440,9 @@ function avviaModifica(utente) {
   document.querySelector(".accordion-utente").setAttribute("open", "");
 
   // Scrolla al form
-  document.querySelector(".accordion-utente").scrollIntoView({ behavior: "smooth", block: "start" });
+  document
+    .querySelector(".accordion-utente")
+    .scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function annullaModifica() {
@@ -332,9 +450,12 @@ function annullaModifica() {
   document.getElementById("form-utente").reset();
   document.getElementById("submit-utente").textContent = "Crea Utente";
   document.getElementById("annulla-modifica").classList.add("nascosta");
+  resetAvatar();
 }
 
-document.getElementById("annulla-modifica").addEventListener("click", annullaModifica);
+document
+  .getElementById("annulla-modifica")
+  .addEventListener("click", annullaModifica);
 
 // ============================================================
 // Form — Creazione / Modifica
@@ -353,6 +474,7 @@ document.getElementById("form-utente").addEventListener("submit", async (e) => {
   const dataNascita = document.getElementById("utente-nascita").value || null;
   const telefono =
     document.getElementById("utente-telefono").value.trim() || null;
+  const password = document.getElementById("utente-password").value;
 
   const regexCF = /^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$/;
   if (!regexCF.test(codiceFiscale)) {
@@ -360,20 +482,27 @@ document.getElementById("form-utente").addEventListener("submit", async (e) => {
     return;
   }
 
-  const dati = { nome, email, citta, codiceFiscale, sesso, dataNascita, telefono };
+  const dati = {
+    nome,
+    email,
+    citta,
+    codiceFiscale,
+    sesso,
+    dataNascita,
+    telefono,
+  };
 
   try {
     if (utenteInModifica) {
-      // Modalità modifica → PUT
-      await api.modificaUtente(utenteInModifica.id, dati);
+      await api.modificaUtente(utenteInModifica.id, { ...dati, avatar: avatarBase64 ?? utenteInModifica.avatar });
       annullaModifica();
       await caricaUtenti();
       await aggiornaStatistiche();
       ui.mostraSuccesso("Utente modificato con successo!", liste.utenti);
     } else {
-      // Modalità creazione → POST
-      await api.creaUtente(dati);
+      await api.creaUtente({ ...dati, password, avatar: avatarBase64 });
       e.target.reset();
+      resetAvatar();
       await caricaUtenti();
       await aggiornaStatistiche();
       ui.mostraSuccesso("Utente creato con successo!", liste.utenti);
@@ -445,8 +574,62 @@ tornaSuBtn.addEventListener("click", () => {
 });
 
 // ============================================================
+// Upload foto profilo
+// ============================================================
+
+document.getElementById("utente-avatar").addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    avatarBase64 = ev.target.result;
+    const preview = document.getElementById("preview-avatar");
+    preview.src = avatarBase64;
+    preview.classList.remove("nascosta");
+  };
+  reader.readAsDataURL(file);
+});
+
+function resetAvatar() {
+  avatarBase64 = null;
+  const preview = document.getElementById("preview-avatar");
+  preview.src = "";
+  preview.classList.add("nascosta");
+  document.getElementById("utente-avatar").value = "";
+}
+
+// ============================================================
+// Contatore caratteri nelle textarea
+// ============================================================
+
+["post-corpo", "commento-corpo"].forEach((id) => {
+  const textarea = document.getElementById(id);
+  const counter = document.createElement("small");
+  counter.className = "contatore-caratteri";
+  counter.textContent = "0 caratteri";
+  textarea.after(counter);
+  textarea.addEventListener("input", () => {
+    counter.textContent = `${textarea.value.length} caratteri`;
+  });
+});
+
+// ============================================================
+// Mostra/nascondi password
+// ============================================================
+
+document.querySelectorAll(".btn-mostra-password").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const input = document.getElementById(btn.dataset.target);
+    const visibile = input.type === "text";
+    input.type = visibile ? "password" : "text";
+    btn.textContent = visibile ? "👁️" : "🙈";
+  });
+});
+
+// ============================================================
 // Avvio — Carica la lista utenti all'apertura
 // ============================================================
 
+aggiornaStatoLogin();
 caricaUtenti();
 aggiornaStatistiche();

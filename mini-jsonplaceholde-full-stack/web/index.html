@@ -25,9 +25,30 @@
         <button id="nav-utenti" class="attivo">Utenti</button>
         <button id="nav-post">Post</button>
         <button id="nav-commenti">Commenti</button>
+        <button id="nav-login">Login</button>
+        <button id="btn-logout" class="nascosta btn-pericolo">Logout</button>
       </nav>
 
+      <p id="stato-login" class="stato-login">Non sei autenticato</p>
+
       <div id="statistiche"></div>
+
+      <!-- ==================================================
+             Sezione Login
+             ================================================== -->
+      <section id="sezione-login" class="nascosta">
+        <h2>🔐 Login</h2>
+        <form id="form-login">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" placeholder="mario@email.com" required />
+          <label for="login-password">Password</label>
+          <div class="input-password-wrap">
+            <input type="password" id="login-password" placeholder="Almeno 8 caratteri" required />
+            <button type="button" class="btn-mostra-password" data-target="login-password" title="Mostra/nascondi password">👁️</button>
+          </div>
+          <button type="submit">Accedi</button>
+        </form>
+      </section>
 
       <!-- ==================================================
              Sezione Utenti
@@ -78,6 +99,20 @@
               id="utente-telefono"
               placeholder="Es. +39 06 1234567"
             />
+            <label for="utente-password">Password</label>
+            <div class="input-password-wrap">
+              <input
+                type="password"
+                id="utente-password"
+                placeholder="Almeno 8 caratteri"
+                minlength="8"
+                required
+              />
+              <button type="button" class="btn-mostra-password" data-target="utente-password" title="Mostra/nascondi password">👁️</button>
+            </div>
+            <label for="utente-avatar">Foto profilo (opzionale)</label>
+            <input type="file" id="utente-avatar" accept="image/*" />
+            <img id="preview-avatar" class="preview-avatar nascosta" alt="Anteprima" />
             <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
               <button type="submit" id="submit-utente">Crea Utente</button>
               <button type="button" id="annulla-modifica" class="nascosta">Annulla</button>
@@ -165,6 +200,17 @@
 
         <div id="lista-commenti"></div>
       </section>
+    </div>
+
+    <!-- Modal conferma elimina -->
+    <div id="modal-conferma" class="modal-overlay nascosta">
+      <div class="modal-box">
+        <p id="modal-testo">Sei sicuro?</p>
+        <div class="modal-azioni">
+          <button id="modal-btn-conferma" class="btn-pericolo">Elimina</button>
+          <button id="modal-btn-annulla" class="btn-secondario">Annulla</button>
+        </div>
+      </div>
     </div>
 
     <script type="module" src="js/app.js"></script>

@@ -19,7 +19,9 @@ CREATE TABLE IF NOT EXISTS utenti (
     sesso          ENUM('M','F','Altro')  NOT NULL,
     dataNascita    DATE,
     telefono       VARCHAR(20),
-    creatoIl TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    password VARCHAR(255)  NOT NULL,
+    creatoIl TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    ruolo ENUM('utente', 'admin') NOT NULL DEFAULT 'utente',
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

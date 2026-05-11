@@ -3,5 +3,12 @@ export default defineNuxtConfig({
     ssr: false,
     devServer: {
         port: 8080
+    },
+    vite: {
+        server: {
+            hmr: {
+                port: 24678
+            }
+        }
     }
 })

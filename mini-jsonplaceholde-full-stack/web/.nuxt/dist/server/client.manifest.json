@@ -1,4 +1,4 @@
-export default {
+{
   "@vite/client": {
     "prefetch": true,
     "isEntry": true,

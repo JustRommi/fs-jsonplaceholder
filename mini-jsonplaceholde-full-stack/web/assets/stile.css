@@ -1,0 +1,1067 @@
+/* stile.css */
+
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap");
+
+/* ============================================================
+   Variabili
+   ============================================================ */
+
+:root {
+  --colore-primario: #2563eb;
+  --colore-primario-scuro: #1d4ed8;
+  --colore-pericolo: #ef4444;
+  --colore-pericolo-scuro: #dc2626;
+  --colore-sfondo: #f3f4f6;
+  --colore-card: #ffffff;
+  --colore-bordo: #e5e7eb;
+  --colore-testo: #111827;
+  --colore-testo-chiaro: #6b7280;
+  --raggio: 6px;
+  --ombra: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+/* ============================================================
+   Reset
+   ============================================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ============================================================
+   Body
+   ============================================================ */
+
+body {
+  font-family: "Nunito", system-ui, sans-serif;
+  color: var(--colore-testo);
+  background-color: var(--colore-sfondo);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ============================================================
+   Layout
+   ============================================================ */
+
+.contenitore {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ============================================================
+   Header
+   ============================================================ */
+
+header {
+  background: var(--colore-primario);
+  color: white;
+  padding: 1.75rem 0;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+}
+
+header h1 {
+  font-size: 1.875rem;
+  font-weight: 800;
+  color: white;
+}
+
+header p {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-top: 0.3rem;
+}
+
+/* ============================================================
+   Navigazione
+   ============================================================ */
+
+nav {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+nav button {
+  flex: 1;
+  padding: 0.625rem 1rem;
+  border: 1px solid var(--colore-bordo);
+  border-radius: var(--raggio);
+  background: var(--colore-card);
+  color: var(--colore-testo-chiaro);
+  font-family: "Nunito", system-ui, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: var(--ombra);
+}
+
+nav button:hover {
+  border-color: var(--colore-primario);
+  color: var(--colore-primario);
+}
+
+nav button.attivo {
+  background: var(--colore-primario);
+  border-color: var(--colore-primario);
+  color: white;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+}
+
+/* ============================================================
+   Sezioni e visibilità
+   ============================================================ */
+
+.nascosta {
+  display: none;
+}
+
+section h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--colore-testo);
+}
+
+/* ============================================================
+   Breadcrumb
+   ============================================================ */
+
+.breadcrumb {
+  font-size: 0.875rem;
+  color: var(--colore-testo-chiaro);
+  margin-bottom: 1rem;
+}
+
+.breadcrumb a {
+  color: var(--colore-primario);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* ============================================================
+   Card
+   ============================================================ */
+
+.card {
+  background: var(--colore-card);
+  border: 1px solid var(--colore-bordo);
+  border-radius: var(--raggio);
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  box-shadow: var(--ombra);
+  transition:
+    box-shadow 0.2s,
+    border-color 0.2s;
+}
+
+.card:hover {
+  border-color: var(--colore-primario);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  color: var(--colore-testo);
+}
+
+.card p {
+  font-size: 0.875rem;
+  color: var(--colore-testo-chiaro);
+  margin-bottom: 0.25rem;
+}
+
+.card .azioni {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.card .azioni button {
+  padding: 0.375rem 0.75rem;
+  border: none;
+  border-radius: var(--raggio);
+  font-family: "Nunito", system-ui, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primario {
+  background: var(--colore-primario);
+  color: white;
+  border: none;
+}
+
+.btn-primario:hover {
+  background: var(--colore-primario-scuro);
+  transform: translateY(-1px);
+}
+
+.btn-secondario {
+  background: #d97706;
+  color: white;
+  border: none;
+}
+
+.btn-secondario:hover {
+  background: #b45309;
+  transform: translateY(-1px);
+}
+
+.btn-pericolo {
+  background: var(--colore-pericolo);
+  color: white;
+  border: none;
+}
+
+.btn-pericolo:hover {
+  background: var(--colore-pericolo-scuro);
+  transform: translateY(-1px);
+}
+
+/* ============================================================
+   Form
+   ============================================================ */
+
+form {
+  background: var(--colore-card);
+  border: 1px solid var(--colore-bordo);
+  border-radius: var(--raggio);
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--ombra);
+}
+
+form h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--colore-testo);
+}
+
+form label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  color: var(--colore-testo-chiaro);
+}
+
+form input,
+form textarea,
+form select {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--colore-bordo);
+  border-radius: var(--raggio);
+  font-size: 0.875rem;
+  font-family: "Nunito", system-ui, sans-serif;
+  margin-bottom: 0.75rem;
+  background: #ffffff;
+  color: var(--colore-testo);
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+form textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+form input:focus,
+form textarea:focus,
+form select:focus {
+  outline: none;
+  border-color: var(--colore-primario);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+form button[type="submit"] {
+  padding: 0.5rem 1.5rem;
+  background: var(--colore-primario);
+  color: white;
+  border: none;
+  border-radius: var(--raggio);
+  font-family: "Nunito", system-ui, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+form button[type="submit"]:hover {
+  background: var(--colore-primario-scuro);
+  transform: translateY(-1px);
+}
+
+/* ============================================================
+   Errore e messaggi
+   ============================================================ */
+
+.errore {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+  border-radius: var(--raggio);
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+/* ============================================================
+   Filtro ricerca
+   ============================================================ */
+
+#ricerca-utenti {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--colore-bordo);
+  border-radius: var(--raggio);
+  font-size: 0.9375rem;
+  font-family: "Nunito", system-ui, sans-serif;
+  background: #ffffff;
+  color: var(--colore-testo);
+  box-shadow: var(--ombra);
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+#ricerca-utenti::placeholder {
+  color: var(--colore-testo-chiaro);
+}
+
+#ricerca-utenti:focus {
+  outline: none;
+  border-color: var(--colore-primario);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* ============================================================
+   Statistiche
+   ============================================================ */
+
+#statistiche {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 0.5rem 0 1.25rem;
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  background: var(--colore-card);
+  border: 1px solid var(--colore-bordo);
+  border-radius: var(--raggio);
+  padding: 0.75rem 1.5rem;
+  min-width: 100px;
+  box-shadow: var(--ombra);
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.stat-card:hover {
+  border-color: var(--colore-primario);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+}
+
+.stat-icona {
+  font-size: 1.4rem;
+}
+
+.stat-numero {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--colore-primario);
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--colore-testo-chiaro);
+}
+
+/* ============================================================
+   Accordion Nuovo Utente
+   ============================================================ */
+
+.accordion-utente {
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--colore-bordo);
+  border-radius: var(--raggio);
+  background: var(--colore-card);
+  box-shadow: var(--ombra);
+  overflow: hidden;
+}
+
+.accordion-utente[open] {
+  border-color: var(--colore-primario);
+}
+
+.accordion-header {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--colore-testo-chiaro);
+  padding: 0.85rem 1.25rem;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition:
+    color 0.2s,
+    background 0.2s;
+  user-select: none;
+}
+
+/* Rimuove la freccia di default del browser */
+.accordion-header::-webkit-details-marker {
+  display: none;
+}
+.accordion-header::marker {
+  display: none;
+}
+
+.accordion-utente[open] .accordion-header {
+  color: var(--colore-primario);
+  border-bottom: 1px solid var(--colore-bordo);
+}
+
+.accordion-header:hover {
+  color: var(--colore-testo);
+  background: rgba(37, 99, 235, 0.04);
+}
+
+/* Il ＋ diventa × quando è aperto */
+.accordion-utente[open] .accordion-header::before {
+  content: "－";
+  color: var(--colore-primario);
+  margin-right: 0.1rem;
+}
+.accordion-utente:not([open]) .accordion-header::before {
+  content: "＋";
+  color: var(--colore-testo-chiaro);
+  margin-right: 0.1rem;
+}
+
+/* Nascondi il ＋ scritto nell'HTML dato che lo gestiamo col ::before */
+.accordion-header {
+  font-size: 0;
+}
+.accordion-header::before,
+.accordion-header::after {
+  font-size: 1rem;
+}
+.accordion-header::after {
+  content: " Nuovo Utente";
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.accordion-post::after {
+  content: " Nuovo Post";
+}
+.accordion-commento::after {
+  content: " Nuovo Commento";
+}
+
+/* Il form dentro l'accordion perde il suo sfondo/bordo perché già nel contenitore */
+.accordion-utente form {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  margin-bottom: 0;
+}
+
+/* ============================================================
+   Tabella Utenti
+   ============================================================ */
+
+.tabella-utenti {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+  background: var(--colore-card);
+  border-radius: var(--raggio);
+  overflow: hidden;
+  box-shadow: var(--ombra);
+  font-size: 0.85rem;
+}
+
+.tabella-utenti thead tr {
+  background: var(--colore-primario);
+  border-bottom: 2px solid var(--colore-primario-scuro);
+}
+
+.tabella-utenti th {
+  font-weight: 700;
+  font-size: 0.78rem;
+  color: #ffffff;
+  padding: 0.7rem 0.75rem;
+  text-align: left;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tabella-utenti td {
+  padding: 0.6rem 0.75rem;
+  color: var(--colore-testo-chiaro);
+  border-bottom: 1px solid var(--colore-bordo);
+  vertical-align: middle;
+}
+
+.tabella-utenti tbody tr {
+  transition: background 0.15s;
+}
+
+.tabella-utenti tbody tr:hover {
+  background: rgba(37, 99, 235, 0.04);
+}
+
+.tabella-utenti tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.tabella-utenti .td-nome {
+  font-weight: 700;
+  color: var(--colore-testo);
+}
+
+.tabella-utenti .td-cf {
+  font-family: monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+}
+
+.tabella-utenti .td-data {
+  white-space: nowrap;
+  font-size: 0.78rem;
+}
+
+.tabella-utenti .td-azioni {
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.tabella-utenti .td-azioni .azioni-wrap {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.tabella-utenti .btn-primario,
+.tabella-utenti .btn-secondario,
+.tabella-utenti .btn-pericolo {
+  padding: 0.3rem 0.5rem;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.tabella-utenti .td-corpo {
+  max-width: 220px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Data a due righe */
+.td-data-multi {
+  white-space: nowrap;
+}
+
+.td-data-multi .data-giorno {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--colore-testo-chiaro);
+}
+
+.td-data-multi .data-ora {
+  display: block;
+  font-size: 0.72rem;
+  opacity: 0.65;
+}
+
+/* Righe commenti cliccabili */
+.riga-cliccabile {
+  cursor: pointer;
+}
+
+.riga-aperta {
+  border-bottom: none !important;
+}
+
+/* Riga espansa sotto il commento */
+.riga-espansa td {
+  padding: 0 !important;
+  border-bottom: 1px solid var(--colore-bordo);
+}
+
+.riga-espansa.nascosta {
+  display: none;
+}
+
+.commento-espanso {
+  padding: 0.75rem 1rem;
+  background: #f9fafb;
+  border-left: 3px solid var(--colore-primario);
+  animation: espandi 0.2s ease-out;
+}
+
+.commento-espanso-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--colore-primario);
+  margin-bottom: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.commento-espanso p {
+  font-size: 0.9rem;
+  color: var(--colore-testo);
+  line-height: 1.6;
+  margin-bottom: 0.4rem;
+  white-space: pre-wrap;
+}
+
+.commento-espanso small {
+  font-size: 0.75rem;
+  color: var(--colore-testo-chiaro);
+}
+
+@keyframes espandi {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================================
+   Paginazione Post
+   ============================================================ */
+
+#paginazione-post {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0.6rem 0 1rem;
+}
+
+#paginazione-post button {
+  padding: 0.4rem 1.1rem;
+  background: var(--colore-card);
+  border: 1px solid var(--colore-bordo);
+  border-radius: var(--raggio);
+  color: var(--colore-testo-chiaro);
+  font-family: "Nunito", system-ui, sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--ombra);
+  transition: all 0.2s;
+}
+
+#paginazione-post button:hover:not(:disabled) {
+  border-color: var(--colore-primario);
+  color: var(--colore-primario);
+}
+
+#paginazione-post button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+#paginazione-post span {
+  font-size: 0.85rem;
+  color: var(--colore-testo-chiaro);
+  font-weight: 600;
+}
+
+/* ============================================================
+   Bottone Torna su
+   ============================================================ */
+
+#torna-su {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  z-index: 99990;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--colore-card);
+  border: 1px solid var(--colore-bordo);
+  color: var(--colore-testo-chiaro);
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition:
+    opacity 0.25s,
+    transform 0.25s,
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+#torna-su.visibile {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+
+#torna-su:hover {
+  border-color: var(--colore-primario);
+  color: var(--colore-primario);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+/* ============================================================
+   Titolo sezione animato
+   ============================================================ */
+
+@keyframes titoloEntra {
+  from {
+    opacity: 0;
+    transform: translateX(-14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.titolo-animato {
+  animation: titoloEntra 0.35s ease-out;
+}
+
+/* ============================================================
+   Scrollbar personalizzata
+   ============================================================ */
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: var(--colore-bordo);
+}
+::-webkit-scrollbar-thumb {
+  background: #9ca3af;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}
+
+/* ============================================================
+   Badge sesso
+   ============================================================ */
+
+.badge-sesso {
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.badge-m {
+  background: rgba(37, 99, 235, 0.1);
+  color: #1d4ed8;
+  border: 1px solid rgba(37, 99, 235, 0.3);
+}
+
+.badge-f {
+  background: rgba(219, 39, 119, 0.1);
+  color: #be185d;
+  border: 1px solid rgba(219, 39, 119, 0.3);
+}
+
+.badge-altro {
+  background: rgba(124, 58, 237, 0.1);
+  color: #6d28d9;
+  border: 1px solid rgba(124, 58, 237, 0.3);
+}
+
+/* ============================================================
+   Avatar iniziali
+   ============================================================ */
+
+.avatar-iniziali {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--av-bg, #2563eb);
+  color: white;
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+/* ============================================================
+   Animazione entrata righe tabella
+   ============================================================ */
+
+.riga-entrata {
+  animation: rigaEntrata 0.3s ease-out both;
+}
+
+@keyframes rigaEntrata {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Avatar immagine ─────────────────────────────────── */
+.avatar-img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+.avatar-img.personaggio {
+  border-radius: 0;
+  object-fit: contain;
+  background: transparent;
+}
+.preview-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--colore-bordo);
+  margin-top: 0.4rem;
+}
+
+/* ── Skeleton loader ─────────────────────────────────── */
+@keyframes shimmer {
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
+}
+.scheletro-blocco {
+  height: 0.9rem;
+  border-radius: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--colore-bordo) 25%,
+    color-mix(in srgb, var(--colore-bordo) 60%, transparent) 50%,
+    var(--colore-bordo) 75%
+  );
+  background-size: 400px 100%;
+  animation: shimmer 1.2s infinite linear;
+}
+.riga-scheletro td {
+  padding: 0.7rem 0.5rem;
+}
+
+/* ── Modal conferma ──────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.modal-overlay.nascosta {
+  display: none;
+}
+.modal-box {
+  background: var(--colore-card);
+  border: 1px solid var(--colore-bordo);
+  border-radius: var(--raggio);
+  padding: 2rem;
+  min-width: 280px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  animation: toastEntra 0.2s ease-out;
+}
+.modal-box p {
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+}
+.modal-azioni {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+/* ── Contatore caratteri ────────────────────────────── */
+.contatore-caratteri {
+  display: block;
+  text-align: right;
+  font-size: 0.72rem;
+  opacity: 0.5;
+  margin-top: 0.2rem;
+}
+
+/* ── Badge ruolo ─────────────────────────────────────── */
+.badge-ruolo {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.15rem 0.45rem;
+  border-radius: 999px;
+  background: rgba(37, 99, 235, 0.1);
+  color: #1d4ed8;
+  border: 1px solid rgba(37, 99, 235, 0.25);
+  margin-left: 0.4rem;
+  vertical-align: middle;
+  letter-spacing: 0.03em;
+}
+
+/* ── Tooltip badge sesso ────────────────────────────── */
+[data-tooltip] {
+  position: relative;
+  cursor: default;
+}
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 5px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--colore-testo);
+  color: #ffffff;
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 0.7rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
+  z-index: 10;
+}
+[data-tooltip]:hover::after {
+  opacity: 1;
+}
+
+/* ── Input password ──────────────────────────────────── */
+.input-password-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-password-wrap input {
+  flex: 1;
+  padding-right: 2.5rem;
+}
+
+.btn-mostra-password {
+  position: absolute;
+  right: 0.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+}
+
+.btn-mostra-password:hover {
+  opacity: 1;
+}
+
+/* ── Toast successo ──────────────────────────────────── */
+.toast-successo {
+  background: #f0fdf4;
+  color: #16a34a;
+  border: 1px solid #86efac;
+  border-radius: var(--raggio);
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  animation: toastEntra 0.25s ease-out;
+}
+
+@keyframes toastEntra {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================================
+   Vuoto
+   ============================================================ */
+
+.vuoto {
+  text-align: center;
+  color: var(--colore-testo-chiaro);
+  padding: 2rem;
+  font-size: 0.9375rem;
+}
+
+/* ============================================================
+   Stato login
+   ============================================================ */
+
+.stato-login {
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--colore-testo-chiaro);
+  padding: 0.3rem 0 0.75rem;
+}
+
+.stato-login.autenticato {
+  color: #16a34a;
+}

@@ -4,7 +4,10 @@
       "Bash(npm install *)",
       "Bash(git checkout *)",
       "Bash(Get-ChildItem -Recurse \"C:\\\\Users\\\\romano.cappelletto_a\\\\Desktop\\\\mini-jsonplaceholde-full-stack\\\\mini-jsonplaceholde-full-stack\\\\web\\\\img\")",
-      "Bash(Select-Object FullName)"
+      "Bash(Select-Object FullName)",
+      "Bash(git rm *)",
+      "Bash(Get-Content *)",
+      "Bash(git add *)"
     ]
   }
 }

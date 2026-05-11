@@ -3,12 +3,15 @@
 -- Inserisce gli stessi dati che avevamo nel vecchio database.js.
 -- Viene eseguito automaticamente da Docker al primo avvio.
 
-INSERT INTO utenti (id, nome, email, citta, codiceFiscale, sesso, dataNascita, telefono) VALUES
-    (1, 'Mario Rossi',    'mario@email.com',  'Roma', 'RSSMRA90A01H501A', 'M', '1990-01-01', '+39 06 1234567'),
-    (2, 'Luigi Verdi',    'luigi@email.com',  'Milano', 'VRDLGU85B02F205X', 'M', '1990-02-01', '+39 06 1234567'),
-    (3, 'Peach Bianchi',  'peach@email.com',  'Napoli', 'BNCPCH72C43G273K', 'F', '1990-01-03', '+39 06 1234567'),
-    (4, 'Toad Gialli',    'toad@email.com',   'Torino', 'GLLTDO95D04L219P', 'M', '1990-04-01', '+39 06 1234567'),
-    (5, 'Bowser Neri',    'bowser@email.com', 'Firenze', 'NRIBWS88E05C351Q', 'M', '1990-01-06', '+39 06 1234567');
+-- Hash bcrypt di "password123" — generato con: node scripts/genera-hash.js
+-- Sostituisci HASH_QUI con l'output prima di ricreare il DB
+
+INSERT INTO utenti (id, nome, email, citta, codiceFiscale, sesso, dataNascita, telefono, password, ruolo) VALUES
+    (1, 'Mario Rossi',    'mario@email.com',  'Roma',    'RSSMRA90A01H501A', 'M', '1990-01-01', '+39 06 1234567', '$2b$10$kIJNIujpuI2ImQJZcTKvruv/RKx/qKDbx6mreYjHDMz71BJVRJjwC', 'admin'),
+    (2, 'Luigi Verdi',    'luigi@email.com',  'Milano',  'VRDLGU85B02F205X', 'M', '1990-02-01', '+39 06 1234567', '$2b$10$kIJNIujpuI2ImQJZcTKvruv/RKx/qKDbx6mreYjHDMz71BJVRJjwC', 'utente'),
+    (3, 'Peach Bianchi',  'peach@email.com',  'Napoli',  'BNCPCH72C43G273K', 'F', '1990-01-03', '+39 06 1234567', '$2b$10$kIJNIujpuI2ImQJZcTKvruv/RKx/qKDbx6mreYjHDMz71BJVRJjwC', 'utente'),
+    (4, 'Toad Gialli',    'toad@email.com',   'Torino',  'GLLTDO95D04L219P', 'M', '1990-04-01', '+39 06 1234567', '$2b$10$kIJNIujpuI2ImQJZcTKvruv/RKx/qKDbx6mreYjHDMz71BJVRJjwC', 'utente'),
+    (5, 'Bowser Neri',    'bowser@email.com', 'Firenze', 'NRIBWS88E05C351Q', 'M', '1990-01-06', '+39 06 1234567', '$2b$10$kIJNIujpuI2ImQJZcTKvruv/RKx/qKDbx6mreYjHDMz71BJVRJjwC', 'utente');
 
 INSERT INTO post (id, userId, titolo, corpo) VALUES
     (1, 1, 'Il mio primo post',          'Ciao a tutti! Questo è il mio primo post sulla piattaforma.'),

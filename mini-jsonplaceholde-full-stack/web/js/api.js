@@ -9,19 +9,71 @@ const BASE_URL = "http://localhost:3000/api";
 // Helper privato — wrappa fetch con JSON e gestione errori
 // ============================================================
 
-async function chiamataApi(percorso, opzioni = {}) {
-  const risposta = await fetch(`${BASE_URL}${percorso}`, {
-    headers: { "Content-Type": "application/json" },
-    ...opzioni,
-  });
+// Tenta di rinnovare l'access token usando il refresh token salvato
+async function rinnovaToken() {
+  const refreshToken = localStorage.getItem("refreshToken");
+  if (!refreshToken) return false;
+  try {
+    const risposta = await fetch(`${BASE_URL}/auth/refresh`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ refreshToken }),
+    });
+    if (!risposta.ok) return false;
+    const { accessToken } = await risposta.json();
+    localStorage.setItem("token", accessToken);
+    return true;
+  } catch {
+    return false;
+  }
+}
 
+// _retry evita loop infiniti: se il secondo tentativo torna 401, si arrende
+async function chiamataApi(percorso, opzioni = {}, _retry = false) {
+  const token = localStorage.getItem("token");
+  const headers = { "Content-Type": "application/json" };
+  if (token) headers["Authorization"] = `Bearer ${token}`;
+
+  const risposta = await fetch(`${BASE_URL}${percorso}`, { ...opzioni, headers });
   const dati = await risposta.json();
 
+  // Access token scaduto → prova a rinnovarlo e ritenta una volta
+  if (risposta.status === 401 && !_retry) {
+    const rinnovato = await rinnovaToken();
+    if (rinnovato) return chiamataApi(percorso, opzioni, true);
+    // Refresh token scaduto → forza logout
+    localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("utente");
+    window.location.reload();
+    return;
+  }
+
   if (!risposta.ok) {
-    throw new Error(dati.errore || "Errore sconosciuto");
+    const errore = new Error(dati.errore || "Errore sconosciuto");
+    errore.status = risposta.status;
+    throw errore;
   }
 
   return dati;
+}
+
+// ============================================================
+// Auth
+// ============================================================
+
+export async function login(email, password) {
+  return chiamataApi("/auth/login", {
+    method: "POST",
+    body: JSON.stringify({ email, password }),
+  });
+}
+
+export async function logout(refreshToken) {
+  return chiamataApi("/auth/logout", {
+    method: "POST",
+    body: JSON.stringify({ refreshToken }),
+  });
 }
 
 // ============================================================

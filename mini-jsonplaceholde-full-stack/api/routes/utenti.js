@@ -14,6 +14,10 @@ import {
   aggiornaUtente,
   eliminaUtente,
 } from "../database/queries/utenti.js";
+import {
+  richiediAutenticazione,
+  richiediRuolo,
+} from "../middleware/autenticazione.js";
 
 const router = Router();
 
@@ -73,25 +77,19 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const { nome, email, citta, codiceFiscale, sesso, dataNascita, telefono } =
-      req.body;
+    const { nome, email, citta, codiceFiscale, sesso, dataNascita, telefono, password, avatar } = req.body;
 
-    if (!nome || !email || !codiceFiscale || !sesso) {
+    if (!nome || !email || !codiceFiscale || !sesso || !password) {
       return res.status(400).json({
-        errore:
-          "I campi 'nome', 'email', 'codiceFiscale' e 'sesso' sono obbligatori",
+        errore: "I campi 'nome', 'email', 'codiceFiscale', 'sesso' e 'password' sono obbligatori",
       });
     }
 
-    const nuovoUtente = await creaUtente({
-      nome,
-      email,
-      citta,
-      codiceFiscale,
-      sesso,
-      dataNascita,
-      telefono,
-    });
+    if (password.length < 8) {
+      return res.status(400).json({ errore: "La password deve essere di almeno 8 caratteri" });
+    }
+
+    const nuovoUtente = await creaUtente({ nome, email, citta, codiceFiscale, sesso, dataNascita, telefono, password, avatar });
     res.status(201).json(nuovoUtente);
   } catch (errore) {
     console.error("Errore POST /api/utenti:", errore);
@@ -107,28 +105,18 @@ router.post("/", async (req, res) => {
 // Prima (array):    utenti[indice] = { id, nome, email, citta }
 // Adesso (MySQL):   UPDATE utenti SET nome=?, email=?, citta=? WHERE id=?
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", richiediAutenticazione, async (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    const { nome, email, citta, codiceFiscale, sesso, dataNascita, telefono } =
-      req.body;
+    const { nome, email, citta, codiceFiscale, sesso, dataNascita, telefono, avatar } = req.body;
 
     if (!nome || !email || !codiceFiscale || !sesso) {
       return res.status(400).json({
-        errore:
-          "I campi 'nome', 'email', 'codiceFiscale' e 'sesso' sono obbligatori",
+        errore: "I campi 'nome', 'email', 'codiceFiscale' e 'sesso' sono obbligatori",
       });
     }
 
-    const aggiornato = await sostituisciUtente(id, {
-      nome,
-      email,
-      citta,
-      codiceFiscale,
-      sesso,
-      dataNascita,
-      telefono,
-    });
+    const aggiornato = await sostituisciUtente(id, { nome, email, citta, codiceFiscale, sesso, dataNascita, telefono, avatar });
 
     if (!aggiornato) {
       return res.status(404).json({
@@ -151,7 +139,7 @@ router.put("/:id", async (req, res) => {
 // Prima (array):    if (nome !== undefined) utente.nome = nome;
 // Adesso (MySQL):   UPDATE utenti SET <campo>=? WHERE id=? (query dinamica)
 
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", richiediAutenticazione, async (req, res) => {
   try {
     const id = parseInt(req.params.id);
     const { nome, email, citta } = req.body;
@@ -181,22 +169,27 @@ router.patch("/:id", async (req, res) => {
 // Nota: grazie a ON DELETE CASCADE, eliminando un utente
 // vengono eliminati automaticamente anche i suoi post e commenti.
 
-router.delete("/:id", async (req, res) => {
-  try {
-    const id = parseInt(req.params.id);
-    const rimosso = await eliminaUtente(id);
+router.delete(
+  "/:id",
+  richiediAutenticazione,
+  richiediRuolo("admin"),
+  async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const rimosso = await eliminaUtente(id);
 
-    if (!rimosso) {
-      return res.status(404).json({
-        errore: `Utente con id ${id} non trovato`,
-      });
+      if (!rimosso) {
+        return res.status(404).json({
+          errore: `Utente con id ${id} non trovato`,
+        });
+      }
+
+      res.json({ messaggio: "Utente eliminato", utente: rimosso });
+    } catch (errore) {
+      console.error("Errore DELETE /api/utenti/:id:", errore);
+      res.status(500).json({ errore: "Errore interno del server" });
     }
-
-    res.json({ messaggio: "Utente eliminato", utente: rimosso });
-  } catch (errore) {
-    console.error("Errore DELETE /api/utenti/:id:", errore);
-    res.status(500).json({ errore: "Errore interno del server" });
-  }
-});
+  },
+);
 
 export default router;

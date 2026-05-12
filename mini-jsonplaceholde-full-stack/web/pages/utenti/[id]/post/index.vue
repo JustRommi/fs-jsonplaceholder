@@ -1,8 +1,9 @@
 <template>
   <div>
-    <div class="breadcrumb">
-      <NuxtLink to="/utenti">Utenti</NuxtLink> → Post di {{ utente?.nome || '...' }}
-    </div>
+    <Breadcrumb :items="[
+      { label: 'Utenti', to: '/utenti' },
+      { label: `Post di ${utente?.nome || '...'}` }
+    ]" />
 
     <h2>📋 Post di {{ utente?.nome }}</h2>
 

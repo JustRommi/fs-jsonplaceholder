@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="breadcrumb">
-      <NuxtLink to="/utenti">Utenti</NuxtLink> →
-      <NuxtLink :to="`/utenti/${userId}/post`">Post di {{ nomeUtente }}</NuxtLink> →
-      Commenti
-    </div>
+    <Breadcrumb :items="[
+      { label: 'Utenti', to: '/utenti' },
+      { label: `Post di ${nomeUtente}`, to: `/utenti/${userId}/post` },
+      { label: 'Commenti' }
+    ]" />
 
     <h2>💬 Commenti — {{ titoloPost }}</h2>
 

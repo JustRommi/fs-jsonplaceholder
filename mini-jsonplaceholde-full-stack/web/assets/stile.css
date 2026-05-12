@@ -1065,3 +1065,34 @@ form button[type="submit"]:hover {
 .stato-login.autenticato {
   color: #16a34a;
 }
+
+.btn-logout-nav {
+  width: auto !important;
+  flex: none !important;
+  padding: 0.4rem 1rem !important;
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Nav links Nuxt — stile uguale ai nav button */
+nav a.nav-link {
+  display: inline-block;
+  padding: 0.5rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  background: transparent;
+}
+
+nav a.nav-link.attivo,
+nav a.router-link-active {
+  background: var(--colore-primario, #2563eb);
+  color: #fff;
+}

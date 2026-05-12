@@ -1,6 +1,6 @@
 <template>
   <div v-if="visibile" class="modal-overlay" @click.self="annulla">
-    <div class="modal-conferma">
+    <div class="modal-box">
       <p>{{ testo }}</p>
       <div class="modal-azioni">
         <button class="btn-pericolo" @click="conferma">Sì</button>
